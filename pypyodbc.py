@@ -2688,7 +2688,6 @@ class Connection:
             self.close()
 
     def close(self):
-        global shared_env_h
 
         if not self.connected:
             raise ProgrammingError('HY000','Attempt to close a closed connection.')
@@ -2707,9 +2706,9 @@ class Connection:
         ret = ODBC_API.SQLFreeHandle(SQL_HANDLE_DBC, self.dbc_h)
         check_success(self, ret)
 
+        global shared_env_h
         ret = ODBC_API.SQLFreeHandle(SQL_HANDLE_ENV, shared_env_h)
         shared_env_h = None
-        check_success(shared_env_h, ret)
 
 #        if shared_env_h.value:
 #            #if DEBUG:print 'env'
